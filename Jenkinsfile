@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Compile Code') {
             steps {
-                sh "./mvnw clean compile -e"
+                sh "./mvnw clean compile -e -DskipTest"
             }
         }
         stage('Test Code') {
@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Jar Code') {
             steps {
-                sh "./mvnw clean package -e"
+                sh "./mvnw clean package -e -DskipTest"
             }
         }
         stage('Run Jar') {
