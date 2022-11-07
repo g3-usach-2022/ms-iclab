@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Good Bye') {
             steps {
-                echo 'Profe un 7 plsss'
+                echo 'Profe un 7 plssss'
             }
         }
     }
