@@ -19,18 +19,18 @@ pipeline {
         }
         stage('Run Jar') {
             steps {
-                sh "./mvnw spring-boot:run"
+                //sh "./mvnw spring-boot:run"
                 sh "nohup bash mvnw spring-boot:run &"
             }
         }
         stage('Testing Application') {
             steps {
-                 sh "curl -X GET 'http://ec2-3-84-199-151.compute-1.amazonaws.com:8080/rest/mscovid/test?msg=testing'"
+                 sh "curl -X GET 'http://34.192.202.67:8081/rest/mscovid/test?msg=testing'"
             }
         }
         stage('Good Bye') {
             steps {
-                echo 'Profe un 7 plsss'
+                echo 'Profe un 7 plssss'
             }
         }
     }
