@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Testing Application') {
             steps { 
-                 sh "sleep 500; curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+                 sh "sleep 10; curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
             }
         }
         stage('Good Bye') {
