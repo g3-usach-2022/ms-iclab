@@ -20,7 +20,8 @@ pipeline {
         stage('Run Jar') {
             steps {
                 //sh "./mvnw spring-boot:run"
-                sh "nohup bash ./mvnw spring-boot:run &"
+                //sh "nohup bash ./mvnw spring-boot:run &"
+                sh "sudo ./mvnw spring-boot:run &"
             }
         }
         stage('Testing Application') {
