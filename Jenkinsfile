@@ -25,8 +25,8 @@ pipeline {
             }
         }
         stage('Testing Application') {
-            steps {
-                 sh "curl -X GET 'http://34.192.202.67:8081/rest/mscovid/test?msg=testing'"
+            steps { 
+                 sh "sleep 3000; curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
             }
         }
         stage('Good Bye') {
