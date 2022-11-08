@@ -21,7 +21,7 @@ pipeline {
             steps {
                 //sh "./mvnw spring-boot:run"
                 //sh "nohup bash ./mvnw spring-boot:run &"
-                sh "sudo ./mvnw spring-boot:run &"
+                sh "sudo -t ./mvnw spring-boot:run &"
             }
         }
         stage('Testing Application') {
