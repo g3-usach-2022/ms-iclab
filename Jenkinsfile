@@ -21,12 +21,13 @@ pipeline {
             steps {
                 //sh "./mvnw spring-boot:run"
                 //sh "nohup bash ./mvnw spring-boot:run &"
-                sh "sudo -t ./mvnw spring-boot:run &"
+                sh "./mvnw spring-boot:run &"
             }
         }
         stage('Testing Application') {
             steps {
-                 sh "curl -X GET 'http://34.192.202.67:8081/rest/mscovid/test?msg=testing'"
+                sleep time: 10000, unit: 'MILLISECONDS'
+                sh "curl -X GET 'http://34.192.202.67:8081/rest/mscovid/test?msg=testing'"
             }
         }
         stage('Good Bye') {
