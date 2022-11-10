@@ -1,3 +1,4 @@
-@library('jenkinsSharedLibrary')_
+//@Library('jenkinsSharedLibrary')_
+@Library('[jenkinsSharedLibrary]')_
 
 mainPipeline()
