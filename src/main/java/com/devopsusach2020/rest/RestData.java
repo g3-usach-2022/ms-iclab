@@ -1,3 +1,28 @@
+package com.devopsusach2020.rest;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.devopsusach2020.model.Pais;
+import com.devopsusach2020.model.Mundial;
+import com.google.gson.Gson;
+
+@RestController
+@RequestMapping(path = "/rest/mscovid")
+public class RestData {
+	
+	private final static Logger LOGGER = Logger.getLogger("devops.subnivel.Control");
+
+	
 @GetMapping(path = "/estadoMundial", produces = MediaType.APPLICATION_JSON_VALUE) public @ResponseBody Mundial getTotalmundial(){
 
         LOGGER.log(Level.INFO, "Consulta mundial"); 
