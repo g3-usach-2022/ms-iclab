@@ -24,18 +24,18 @@ public class RestData {
 
 	
 @GetMapping(path = "/estadoPais", produces = MediaType.APPLICATION_JSON_VALUE) 
-public @ResponseBody Pais getTotalPais(@ReguestParam(name = "pais") String message){ 
+public @ResponseBody Pais getTotalPais(@RequestParam(name = "pais") String message){ 
         RestTemplate restTemplate = new RestTemplate(); 
     ResponseEntity<String> call= restTemplate.getForEntity("https://api.covidl9api.com/live/country/" + message ,String.class); 
 
 LOGGER.log(Level.INFO, "Consulta por pais"); 
 
-        Pais response = new Pais(); 
+        Pais response = new Pais(); 1
         int confirmed = 0; 
         int death = 0; 
         int recovered = 0; 
         Gson gson = new Gson(); 
-Pais[] estados = gson.fromJson(call.getBody().toLowerCase(), Pals[].class); 
+Pais[] estados = gson.fromJson(call.getBody().toLowerCase(), Pais[].class); 
 
 for(Pais estado : estados) { 
         response.setDate(estado.getDate()); 
