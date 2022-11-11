@@ -27,7 +27,7 @@ pipeline {
         stage('Testing Application') {
             steps {
                 sleep time: 10000, unit: 'MILLISECONDS'
-                sh "curl -X GET 'http://34.192.202.67:8081/rest/mscovid/test?msg=testing'"
+                sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
             }
         }
         stage('Good Bye') {
