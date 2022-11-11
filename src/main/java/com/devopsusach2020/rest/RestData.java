@@ -30,7 +30,7 @@ public @ResponseBody Pais getTotalPais(@RequestParam(name = "pais") String messa
 
 LOGGER.log(Level.INFO, "Consulta por pais"); 
 
-        Pais response = new Pais(); 1
+        Pais response = new Pais(); 
         int confirmed = 0; 
         int death = 0; 
         int recovered = 0; 
