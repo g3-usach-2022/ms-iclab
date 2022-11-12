@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Compile Code') {
             steps {
-                sh "./mvnw clean compile -e"
+                sh "./mvnw clean compile -e -DskipTest"
             }
         }
         stage('Test Code') {
@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Jar Code') {
             steps {
-                sh "./mvnw clean package -e"
+                sh "./mvnw clean package -e -DskipTest"
             }
         }
         stage('Run Jar') {
@@ -26,12 +26,16 @@ pipeline {
         }
         stage('Testing Application') {
             steps {
-                 sh "curl -X GET 'http://localhost:8080/rest/mscovid/test?msg=testing'"
+                sleep time: 10000, unit: 'MILLISECONDS'
+
+                sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+
             }
         }
         stage('Good Bye') {
             steps {
-                echo 'Profe un 7'
+                echo 'Profe un 7 plssss'
+
             }
         }
     }
