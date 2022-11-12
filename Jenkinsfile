@@ -35,6 +35,7 @@ pipeline {
                 echo 'Profe un 7 plssss'
                 echo 'Profe un 10 mejorrr plssss'
                 echo 'Profe un 13 mejorrr plsssssssssssss yaaa'
+                echo 'Profe un 26 mejorrr plsssssssssssss yaaaaaaaa'
             }
         }
     }
