@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Testing Application') {
             steps {
-                 sh "curl -X GET 'http://ec2-3-84-199-151.compute-1.amazonaws.com:8080/rest/mscovid/test?msg=testing'"
+                 sh "curl -X GET 'http://localhost:8080/rest/mscovid/test?msg=testing'"
             }
         }
         stage('Good Bye') {
