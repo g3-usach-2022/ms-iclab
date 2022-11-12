@@ -27,16 +27,15 @@ pipeline {
         stage('Testing Application') {
             steps {
                 sleep time: 10000, unit: 'MILLISECONDS'
+
                 sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+
             }
         }
         stage('Good Bye') {
             steps {
                 echo 'Profe un 7 plssss'
-                echo 'Profe un 10 mejorrr plssss'
-                echo 'Profe un 13 mejorrr plsssssssssssss yaaa'
-                echo 'Profe un 26 mejorrr plsssssssssssss yaaaaaaaa'
-                echo 'Profe un 52 plzzzzz yaaaaaaaa'
+
             }
         }
     }
