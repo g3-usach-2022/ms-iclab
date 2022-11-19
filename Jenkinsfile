@@ -28,8 +28,9 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonarqube') {
                     sh "echo 'Calling sonar Service in another docker container!'"
-                    sh 'mvn clean verify sonar:sonar'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=grupo-3 -Dsonar.projectName=Grupo3-Lab4'
                 }
+            }
         }
         stage('Good Bye') {
             steps {
