@@ -41,7 +41,7 @@ pipeline {
                     groupId: 'Grupo3',
                     version: '1',
                     repository: 'maven-releases',
-                    credentialsId: '18399bf6-925d-3a0f-9201-9ccd03fdfe2f',
+                    credentialsId: 'e21e6063-2f81-44d7-ba50-7f083bceb5a3',
                     artifacts: [
                         [artifactId: nexus-artifact-uploader,
                         classifier: '',
