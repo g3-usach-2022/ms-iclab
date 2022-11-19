@@ -83,7 +83,8 @@ pipeline {
     post {
         always {
             //sh "echo '${env.JOB_NAME} - ${env.BUILD_NUMBER} - ${env.BUILD_URL}'"
-            slackSend message: "Test Grupo3"
+            //slackSend message: "Test Grupo3"
+            sh "echo 'Test'"
         }
     }
 }
