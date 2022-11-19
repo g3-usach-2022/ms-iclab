@@ -41,17 +41,18 @@ pipeline {
     }
     post {
         always {
+            sh "echo "${env.JOB_NAME} - ${env.BUILD_NUMBER} - ${env.BUILD_URL}""
             sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Always]'"
-            slackSend "Build Always - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            //slackSend "Build Always - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
         success {
             sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Success]'"
-            slackSend "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            //slackSend "Build Success - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
 
         failure {
             sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Failure]'"
-            slackSend "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            //slackSend "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
     }
 }
