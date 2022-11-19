@@ -39,4 +39,16 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Always]'"
+        }
+        success {
+            sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Success]'"
+        }
+
+        failure {
+            sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Failure]'"
+        }
+    }
 }
