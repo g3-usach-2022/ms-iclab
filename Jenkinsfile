@@ -21,16 +21,15 @@ pipeline {
             steps {
                 //sh "./mvnw spring-boot:run"
                 //sh "nohup bash ./mvnw spring-boot:run &"
-                sh "./mvn spring-boot:run &"
+                sh "./mvnw spring-boot:run &"
             }
         }
-        stage('Testing Application') {
+        stage('sonar') {
             steps {
-                sleep time: 10000, unit: 'MILLISECONDS'
-
-                sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-
-            }
+                withSonarQubeEnv('sonarqube') {
+                    sh "echo 'Calling sonar Service in another docker container!'"
+                    sh 'mvn clean verify sonar:sonar'
+                }
         }
         stage('Good Bye') {
             steps {
