@@ -41,7 +41,7 @@ pipeline {
     }
     post {
         always {
-            sh "echo "${env.JOB_NAME} - ${env.BUILD_NUMBER} - ${env.BUILD_URL}""
+            sh "echo "${env.JOB_NAME} - ${env.BUILD_NUMBER} - ${env.BUILD_URL}"
             sh "echo '[Grupo3][Pipeline CI/CD][Rama: release/estado-pais][Stage: build][Resultado:Always]'"
             //slackSend "Build Always - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
