@@ -32,6 +32,25 @@ pipeline {
                 }
             }
         }
+        stage('Nexus'){        
+            steps {
+                nexusArtifactUploader {
+                    nexusVersion('nexus3')
+                    protocol('http')
+                    nexusUrl('nexus:8081')
+                    groupId('Grupo3')
+                    version('3.43')
+                    repository('Grupo3-Lab4')
+                    credentialsId('18399bf6-925d-3a0f-9201-9ccd03fdfe2f')
+                    artifact {
+                        artifactId('nexus-artifact-uploader')
+                        type('jar')
+                        classifier('debug')
+                        file('build/DevOpsUsach2020*.jar')
+                    }
+                }
+            }
+        }
         stage('Good Bye') {
             steps {
                 echo 'Profe un 7 plssss'
