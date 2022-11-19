@@ -24,12 +24,12 @@ pipeline {
                 sh "./mvnw spring-boot:run &"
             }
         }
-        stage('Testing Application') {
+        stage('sonar') {
             steps {
-                sleep time: 10000, unit: 'MILLISECONDS'
-
-                sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-
+                withSonarQubeEnv('sonarqube') {
+                    sh "echo 'Calling sonar Service in another docker container!'"
+                    sh './mvnw clean verify sonar:sonar -Dsonar.projectKey=grupo-3 -Dsonar.projectName=Grupo3-Lab4'
+                }
             }
         }
         stage('Good Bye') {
@@ -38,5 +38,13 @@ pipeline {
 
             }
         }
+    }
+    post {
+            success {
+                    slackSend message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
+                }
+            failure {
+                    slackSend message:"[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Failed]- (<${env.BUILD_URL}|Open>)"
+                }
     }
 }
