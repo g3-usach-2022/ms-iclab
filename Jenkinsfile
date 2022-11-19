@@ -40,7 +40,7 @@ pipeline {
                     nexusUrl: 'nexus:8081/nexus',
                     groupId: 'Grupo3',
                     version: '1',
-                    repository: 'Grupo3-Lab4',
+                    repository: 'maven-releases',
                     credentialsId: '18399bf6-925d-3a0f-9201-9ccd03fdfe2f',
                     artifacts: [
                         [artifactId: nexus-artifact-uploader,
