@@ -37,15 +37,15 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: 'nexus:8081/nexus',
+                    nexusUrl: 'nexus:8081',
                     groupId: 'Grupo3',
-                    version: '1',
-                    repository: 'maven-releases',
-                    credentialsId: 'e21e6063-2f81-44d7-ba50-7f083bceb5a3',
+                    version: '1.0.0',
+                    repository: 'maven-releases-g3',
+                    credentialsId: 'admin-nexus',
                     artifacts: [
-                        [artifactId: nexus-artifact-uploader,
-                        classifier: '',
-                        file: 'build/DevOpsUsach2020*' + '.jar',
+                        [artifactId: "archivo",
+                        classifier: 'lab4',
+                        file: 'DevOpsUsach2020*' + '.jar',
                         type: 'jar']
                     ]
                 )
