@@ -25,7 +25,7 @@ pipeline {
                 //borra tag local
                 //sh 'git tag -d ${pomVersion}'
                 //crea tag
-                sh 'git tag \${VERSION} -m \"Pusing tag \${VERSION}\"'
+                sh "git tag ${VERSION}"
                 //push tag a remoto
                 sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}"
                 }
