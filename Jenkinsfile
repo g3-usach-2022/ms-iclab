@@ -60,18 +60,21 @@ pipeline {
         }
         stage('Nexus'){        
             steps {
+                script{
+                    nPomVersion = readMavenPom().getVersion()
+                }
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     nexusUrl: 'nexus:8081',
                     groupId: 'Grupo3',
-                    version: "${pomVersion}",
+                    version: "${nPomVersion}",
                     repository: 'maven-releases-g3',
                     credentialsId: 'artefactos-admin',
                     artifacts: [
                         [artifactId: "archivo",
                         classifier: 'lab4',
-                         file: '/build/DevOpsUsach2020-'+ "${pomVersion}" + '.jar',
+                         file: '/build/DevOpsUsach2020-'+ "${nPomVersion}" + '.jar',
                         type: 'jar']
                     ]
                 )
