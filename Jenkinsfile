@@ -41,7 +41,7 @@ pipeline {
                     protocol: 'http',
                     nexusUrl: 'nexus:8081',
                     groupId: 'Grupo3',
-                    version: '1.0.0',
+                    version: "${pomVersion}",
                     repository: 'maven-releases-g3',
                     credentialsId: 'artefactos-admin',
                     artifacts: [
