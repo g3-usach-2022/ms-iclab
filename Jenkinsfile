@@ -19,7 +19,7 @@ pipeline {
                 sh 'git add .'
                 sh 'git commit -m \"pushing version \${VERSION}\"'
                 sh "echo ${env.GIT_BRANCH}"
-                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${env.GIT_BRANCH}"
+                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git"
                 //borra tag remoto
                 //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git --delete ${pomVersion}'
                 //borra tag local
