@@ -11,17 +11,19 @@ pipeline {
                 script{
                     VERSION = readMavenPom().getVersion()
                 }
-                sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${VERSION} versions:commit'
-                //withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                //sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${VERSION} versions:commit'
+                withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                sh 'git commit -m \"pushing version ${VERSION}\"'
+                sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${env.BRANCH_NAME}'
                 //borra tag remoto
                 //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git --delete ${pomVersion}'
                 //borra tag local
                 //sh 'git tag -d ${pomVersion}'
                 //crea tag
-                //sh 'git tag ${VERSION}'
+                sh 'git tag -af ${VERSION} -m \"Pusing tag ${VERSION}\"'
                 //push tag a remoto
-                //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}'
-                //}
+                sh 'git push -f https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}'
+                }
             }
         }
 
