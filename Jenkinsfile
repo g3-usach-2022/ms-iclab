@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Versioning and tag'){
             steps{
-                sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion} versions:commit '
+                sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.\\${parsedVersion.minorVersion}.\\${parsedVersion.nextIncrementalVersion} versions:commit '
                 
                 script{
                     VERSION = readMavenPom().getVersion()
