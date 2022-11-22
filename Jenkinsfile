@@ -16,14 +16,14 @@ pipeline {
                 sh 'git config --global user.name \"BryanArancibia\"'
                 sh 'git config --global user.email \"b.arancibia.f.l@gmail.com\"'
                 sh 'git add .'
-                sh 'git commit -m \"pushing version ${VERSION}\"'
-                sh 'git push https://\${GIT_USERNAME}:\${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git \${env.BRANCH_NAME}'
+                sh 'git commit -m \"pushing version \${VERSION}\"'
+                sh 'git push -f https://\${GIT_USERNAME}:\${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git \${env.BRANCH_NAME}'
                 //borra tag remoto
                 //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git --delete ${pomVersion}'
                 //borra tag local
                 //sh 'git tag -d ${pomVersion}'
                 //crea tag
-                sh 'git tag -af ${VERSION} -m \"Pusing tag ${VERSION}\"'
+                sh 'git tag -af ${VERSION} -m \"Pusing tag \${VERSION}\"'
                 //push tag a remoto
                 sh 'git push -f https://\${GIT_USERNAME}:\${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git \${VERSION}'
                 }
