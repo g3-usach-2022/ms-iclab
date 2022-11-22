@@ -41,7 +41,7 @@ pipeline {
                     groupId: 'Grupo3',
                     version: '1.0.0',
                     repository: 'maven-releases-g3',
-                    credentialsId: 'admin-nexus',
+                    credentialsId: 'a60c3da0-c78b-34b0-87bc-3ccc91bd111a',
                     artifacts: [
                         [artifactId: "archivo",
                         classifier: 'lab4',
