@@ -12,22 +12,18 @@ pipeline {
                 script{
                     VERSION = readMavenPom().getVersion()
                 }
-                //sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${VERSION} versions:commit'
                 withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                sh 'git config --global user.name \"BryanArancibia\"'
-                sh 'git config --global user.email \"b.arancibia.f.l@gmail.com\"'
-                sh 'git add .'
-                sh 'git commit -m \"pushing version \${VERSION}\"'
-                sh "echo ${env.GIT_BRANCH}"
-                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git HEAD:${env.GIT_BRANCH}"
-                //borra tag remoto
-                //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git --delete ${pomVersion}'
-                //borra tag local
-                //sh 'git tag -d ${pomVersion}'
-                //crea tag
-                sh "git tag ${VERSION}"
-                //push tag a remoto
-                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}"
+                    //config golbal
+                    sh 'git config --global user.name \"jenkins\"'
+                    sh 'git config --global user.email \"b.arancibia.f.l@gmail.com\"'
+                    sh 'git add .'
+                    sh 'git commit -m \"pushing version \${VERSION}\"'
+                    sh "echo ${env.GIT_BRANCH}"
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git HEAD:${env.GIT_BRANCH}"
+                    //create tag
+                    sh "git tag ${VERSION}"
+                    //push tag a remoto
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}"
                 }
             }
         }
