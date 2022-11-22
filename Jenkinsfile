@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Versioning and tag'){
             steps{
+                sh "env"
                 sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.\\${parsedVersion.minorVersion}.\\${parsedVersion.nextIncrementalVersion} versions:commit '
                 
                 script{
