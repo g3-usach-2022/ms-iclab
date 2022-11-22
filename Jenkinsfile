@@ -45,7 +45,7 @@ pipeline {
                     artifacts: [
                         [artifactId: "archivo",
                         classifier: 'lab4',
-                        file: 'DevOpsUsach2020*' + '.jar',
+                        file: '/build/DevOpsUsach2020*' + '.jar',
                         type: 'jar']
                     ]
                 )
