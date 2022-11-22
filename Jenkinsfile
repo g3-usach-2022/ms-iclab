@@ -12,7 +12,7 @@ pipeline {
                     VERSION = readMavenPom().getVersion()
                 }
                 sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=${VERSION} versions:commit'
-                withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                //withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                 //borra tag remoto
                 //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git --delete ${pomVersion}'
                 //borra tag local
@@ -21,7 +21,7 @@ pipeline {
                 //sh 'git tag ${VERSION}'
                 //push tag a remoto
                 //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}'
-                }
+                //}
             }
         }
 
