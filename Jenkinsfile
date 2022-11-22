@@ -6,7 +6,6 @@ pipeline {
     stages {
         stage('Versioning and tag'){
             steps{
-                sh "env"
                 sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.\\${parsedVersion.minorVersion}.\\${parsedVersion.nextIncrementalVersion} versions:commit '
                 
                 script{
@@ -16,6 +15,7 @@ pipeline {
                     //config golbal
                     sh 'git config --global user.name \"jenkins\"'
                     sh 'git config --global user.email \"b.arancibia.f.l@gmail.com\"'
+                    //commit and push versioning
                     sh 'git add .'
                     sh 'git commit -m \"pushing version \${VERSION}\"'
                     sh "echo ${env.GIT_BRANCH}"
@@ -28,7 +28,6 @@ pipeline {
             }
         }
 
-/*
         stage('Compile Code') {
             steps {
                 sh "./mvnw clean compile -e -DskipTest"
@@ -84,9 +83,8 @@ pipeline {
 
             }
         }
-    */
     }
-    /*
+
     post {
             success {
                     slackSend message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
@@ -94,6 +92,6 @@ pipeline {
             failure {
                     slackSend message:"[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Failed]- (<${env.BUILD_URL}|Open>)"
                 }
-    }*/
+    }
     
 }
