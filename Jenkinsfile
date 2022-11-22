@@ -15,6 +15,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                 sh 'git config --global user.name \"BryanArancibia\"'
                 sh 'git config --global user.email \"b.arancibia.f.l@gmail.com\"'
+                sh 'git add .'
                 sh 'git commit -m \"pushing version ${VERSION}\"'
                 sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${env.BRANCH_NAME}'
                 //borra tag remoto
