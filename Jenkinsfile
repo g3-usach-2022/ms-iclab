@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+        pomVersion = readMavenPom().getVersion()
+    }
     stages {
         stage('Compile Code') {
             steps {
@@ -45,7 +47,7 @@ pipeline {
                     artifacts: [
                         [artifactId: "archivo",
                         classifier: 'lab4',
-                        file: '/build/DevOpsUsach2020' + '.jar',
+                         file: '/build/DevOpsUsach2020'+ "${pomVersion}" + '.jar',
                         type: 'jar']
                     ]
                 )
