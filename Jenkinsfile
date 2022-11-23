@@ -47,6 +47,11 @@ pipeline {
                     env.STAGE='Test Code'
                     sh "./mvn clean test -e"
             }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
+            }
         }
         stage('Jar Code') {
             steps {
