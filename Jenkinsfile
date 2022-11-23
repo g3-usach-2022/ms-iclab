@@ -44,8 +44,10 @@ pipeline {
         }
         stage('Test Code') {
             steps {
+                    script {
                     env.STAGE='Test Code'
                     sh "./mvn clean test -e"
+                    }
             }
             post{
                 failure{
