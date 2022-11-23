@@ -45,7 +45,7 @@ pipeline {
         stage('Test Code') {
             steps {
                     env.STAGE='Test Code'
-                    sh "./mvnw clean test -e"
+                    sh "./mvn clean test -e"
             }
         }
         stage('Jar Code') {
