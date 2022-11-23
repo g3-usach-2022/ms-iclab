@@ -30,7 +30,12 @@ pipeline {
 
         stage('Compile Code') {
             steps {
-                sh "./mvnw clean compile -e -DskipTest"
+                sh "./mvn clean compile -e -DskipTest"
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
         stage('Test Code') {
