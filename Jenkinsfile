@@ -30,7 +30,10 @@ pipeline {
 
         stage('Compile Code') {
             steps {
-                sh "./mvn clean compile -e -DskipTest"
+                script{
+                   env.STAGE='Compile Code'
+                   sh "./mvn clean compile -e -DskipTest"
+                }
             }
             post{
                 failure{
