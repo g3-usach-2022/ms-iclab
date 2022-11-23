@@ -9,6 +9,7 @@ pipeline {
                 sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.\\${parsedVersion.minorVersion}.\\${parsedVersion.nextIncrementalVersion} versions:commit '
                 
                 script{
+                    env.STAGE='Versioning and tag'
                     VERSION = readMavenPom().getVersion()
                 }
                 withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
@@ -32,7 +33,7 @@ pipeline {
             steps {
                 script{
                    env.STAGE='Compile Code'
-                   sh "./mvn clean compile -e -DskipTest"
+                   sh "./mvnw clean compile -e -DskipTest"
                 }
             }
             post{
@@ -43,7 +44,8 @@ pipeline {
         }
         stage('Test Code') {
             steps {
-                sh "./mvnw clean test -e"
+                    env.STAGE='Test Code'
+                    sh "./mvnw clean test -e"
             }
         }
         stage('Jar Code') {
@@ -98,10 +100,10 @@ pipeline {
 
     post {
             success {
-                    slackSend message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
+                    slackSend color: 'danger' message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
                 }
             failure {
-                    slackSend message:"[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Failed]- (<${env.BUILD_URL}|Open>)"
+                    slackSend color: 'danger' message:"[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Failed]- (<${env.BUILD_URL}|Open>)"
                 }
     }
     
