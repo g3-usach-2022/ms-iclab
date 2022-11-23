@@ -129,7 +129,7 @@ pipeline {
 
     post {
             always {
-                    slackSend color: '#ADD8E6', message: "[Grupo 3] - [Profe un 7 plz]- (<${env.BUILD_URL}|Open>)"
+                    slackSend color: '#ADD8E6', message: "[Grupo 3] - [Resultado: Always] - [Profe un 7 plz]- (<${env.BUILD_URL}|Open>)"
                 }
             success {
                     slackSend color: 'good', message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
