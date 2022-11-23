@@ -1,42 +1,142 @@
 pipeline {
     agent any
-
+    environment {
+        pomVersion = readMavenPom().getVersion()
+    }
     stages {
+        stage('Versioning and tag'){
+            steps{
+                sh './mvnw -B build-helper:parse-version versions:set -DnewVersion=\\${parsedVersion.majorVersion}.\\${parsedVersion.minorVersion}.\\${parsedVersion.nextIncrementalVersion} versions:commit '
+                
+                script{
+                    env.STAGE='Versioning and tag'
+                    VERSION = readMavenPom().getVersion()
+                }
+                withCredentials([usernamePassword(credentialsId: 'Github_acon_token_bfal', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    //config golbal
+                    sh 'git config --global user.name \"jenkins\"'
+                    sh 'git config --global user.email \"b.arancibia.f.l@gmail.com\"'
+                    //commit and push versioning
+                    sh 'git add .'
+                    sh 'git commit -m \"pushing version \${VERSION}\"'
+                    sh "echo ${env.GIT_BRANCH}"
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git HEAD:${env.GIT_BRANCH}"
+                    //create tag
+                    sh "git tag ${VERSION}"
+                    //push tag a remoto
+                    sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/g3-usach-2022/ms-iclab.git ${VERSION}"
+                }
+            }
+        }
+
         stage('Compile Code') {
             steps {
-                sh "./mvnw clean compile -e -DskipTest"
+                script{
+                   env.STAGE='Compile Code'
+                   sh "./mvnw clean compile -e -DskipTest"
+                }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
         stage('Test Code') {
             steps {
-                sh "./mvnw clean test -e"
+                    script {
+                    env.STAGE='Test Code'
+                    sh "./mvnw clean test -e"
+                    }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
         stage('Jar Code') {
             steps {
-                sh "./mvnw clean package -e -DskipTest"
+                script {
+                    env.STAGE='Jar Code'
+                    sh "./mvnw clean package -e -DskipTest"
+                    }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
         stage('Run Jar') {
             steps {
-                //sh "./mvnw spring-boot:run"
-                //sh "nohup bash ./mvnw spring-boot:run &"
-                sh "./mvnw spring-boot:run &"
+                script {
+                    env.STAGE='Run Jar'
+                    sh "./mvnw spring-boot:run &"
+                    }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
-        stage('Testing Application') {
+        stage('Sonar') {
             steps {
-                sleep time: 10000, unit: 'MILLISECONDS'
-
-                sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-
+                script {
+                    env.STAGE='Sonar'
+                    }
+                withSonarQubeEnv('sonarqube') {
+                    sh "echo 'Calling sonar Service in another docker container!'"
+                    sh './mvnw clean verify sonar:sonar -Dsonar.projectKey=grupo-3 -Dsonar.projectName=Grupo3-Lab4'
+                }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
-        stage('Good Bye') {
+        stage('Nexus'){        
             steps {
-                echo 'Profe un 7 plssss'
-
+                script{
+                    nPomVersion = readMavenPom().getVersion()
+                    env.STAGE='Nexus'
+                }
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: 'nexus:8081',
+                    groupId: 'Grupo3',
+                    version: "${nPomVersion}",
+                    repository: 'maven-releases-g3',
+                    credentialsId: 'artefactos-admin',
+                    artifacts: [
+                        [artifactId: "archivo",
+                        classifier: 'lab4',
+                         file: 'build/DevOpsUsach2020-'+ "${nPomVersion}" + '.jar',
+                        type: 'jar']
+                    ]
+                )
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
     }
+
+    post {
+            always {
+                    slackSend color: '#ADD8E6', message: "[Grupo 3] - [Resultado: Always] - [Profe un 7 plz]- (<${env.BUILD_URL}|Open>)"
+                }
+            success {
+                    slackSend color: 'good', message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
+                }
+            failure {
+                    slackSend color: 'danger', message:"[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Failed]- (<${env.BUILD_URL}|Open>)"
+                }
+    }
+    
 }
