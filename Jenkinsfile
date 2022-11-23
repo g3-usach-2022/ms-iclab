@@ -46,7 +46,7 @@ pipeline {
             steps {
                     script {
                     env.STAGE='Test Code'
-                    sh "./mvn clean test -e"
+                    sh "./mvnw clean test -e"
                     }
             }
             post{
@@ -57,21 +57,43 @@ pipeline {
         }
         stage('Jar Code') {
             steps {
-                sh "./mvnw clean package -e -DskipTest"
+                script {
+                    env.STAGE='Jar Code'
+                    sh "./mvnw clean package -e -DskipTest"
+                    }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
         stage('Run Jar') {
             steps {
-                //sh "./mvnw spring-boot:run"
-                //sh "nohup bash ./mvnw spring-boot:run &"
-                sh "./mvnw spring-boot:run &"
+                script {
+                    env.STAGE='Run Jar'
+                    sh "./mvnw spring-boot:run &"
+                    }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
-        stage('sonar') {
+        stage('Sonar') {
             steps {
+                script {
+                    env.STAGE='Sonar'
+                    }
                 withSonarQubeEnv('sonarqube') {
                     sh "echo 'Calling sonar Service in another docker container!'"
                     sh './mvnw clean verify sonar:sonar -Dsonar.projectKey=grupo-3 -Dsonar.projectName=Grupo3-Lab4'
+                }
+            }
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
                 }
             }
         }
@@ -79,6 +101,7 @@ pipeline {
             steps {
                 script{
                     nPomVersion = readMavenPom().getVersion()
+                    env.STAGE='Nexus'
                 }
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
@@ -96,18 +119,20 @@ pipeline {
                     ]
                 )
             }
-        }
-        stage('Good Bye') {
-            steps {
-                echo 'Profe un 7 plssss'
-
+            post{
+                failure{
+                    slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
+                }
             }
         }
     }
 
     post {
+            always {
+                    slackSend color: '#ADD8E6', message: "[Grupo 3] - [Profe un 7 plz]- (<${env.BUILD_URL}|Open>)"
+                }
             success {
-                    slackSend color: 'danger', message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
+                    slackSend color: 'good', message: "[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Success]- (<${env.BUILD_URL}|Open>)"
                 }
             failure {
                     slackSend color: 'danger', message:"[Grupo 3][Pipeline CI/CD][Rama: ${env.JOB_NAME}][Stage: ${env.BUILD_NUMBER}][Resultado: Failed]- (<${env.BUILD_URL}|Open>)"
