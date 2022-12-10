@@ -24,33 +24,51 @@ public class RestData {
 
 	
 @GetMapping(path = "/estadoPais", produces = MediaType.APPLICATION_JSON_VALUE) 
-public @ResponseBody Pais getTotalPais(@RequestParam(name = "pais") String message){ 
-        RestTemplate restTemplate = new RestTemplate(); 
-    ResponseEntity<String> call= restTemplate.getForEntity("https://api.covidl9api.com/live/country/" + message ,String.class); 
+        public @ResponseBody Pais getTotalPais(@RequestParam(name = "pais") String message){ 
 
-LOGGER.log(Level.INFO, "Consulta por pais"); 
+                RestTemplate restTemplate = new RestTemplate(); 
+                ResponseEntity<String> call= restTemplate.getForEntity("https://api.covidl9api.com/live/country/" + message ,String.class); 
 
-        Pais response = new Pais(); 
-        int confirmed = 0; 
-        int death = 0; 
-        int recovered = 0; 
-        Gson gson = new Gson(); 
-Pais[] estados = gson.fromJson(call.getBody().toLowerCase(), Pais[].class); 
+                LOGGER.log(Level.INFO, "Consulta por pais"); 
 
-for(Pais estado : estados) { 
-        response.setDate(estado.getDate()); 
-        response.setActive(estado.getActive()); 
-        confirmed += estado.getConfirmed(); 
-        death += estado.getDeaths(); 
-        recovered += estado.getRecovered(); 
-} 
+                Pais response = new Pais(); 
+                int confirmed = 0; 
+                int death = 0; 
+                int recovered = 0; 
+                Gson gson = new Gson(); 
+                Pais[] estados = gson.fromJson(call.getBody().toLowerCase(), Pais[].class); 
 
-response.setConfirmed(confirmed); 
-response.setDeaths(death); 
-response.setRecovered(recovered); 
-response. setCountry(message); 
-response.setMensaje("ok"); 
+                for(Pais estado : estados) { 
+                        response.setDate(estado.getDate()); 
+                        response.setActive(estado.getActive()); 
+                        confirmed += estado.getConfirmed(); 
+                        death += estado.getDeaths(); 
+                        recovered += estado.getRecovered(); 
+                } 
 
-        return response; 
+                response.setConfirmed(confirmed); 
+                response.setDeaths(death); 
+                response.setRecovered(recovered); 
+                response. setCountry(message); 
+                response.setMensaje("ok"); 
+
+                return response; 
         } 
+
+@GetMapping(path = "/estadoMundial", produces = MediaType.APPLICATION_JSON_VALUE) 
+        public @ResponseBody Mundial getTotalmundial(){
+
+                LOGGER.log(Level.INFO, "Consulta mundial"); 
+        
+                RestTemplate restTemplate = new RestTemplate(); 
+                ResponseEntity<String> call= restTemplate.getForEntity("https://api.covidl9api.com/world/total" ,String.class); 
+                Mundial response = new Mundial(); 
+                Gson gson = new Gson(); 
+                Mundial estado = gson.fromJson(call.getBody().toLowerCase(), Mundial.class);
+                response.setTotalConfirmed(estado.getTotalConfirmed()); 
+                response.setTotalDeaths(estado.getTotalDeaths()); 
+                response.setTotalRecovered(estado.getTotalRecovered()); 
+        
+                return response; 
+                } 
 }
