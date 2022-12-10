@@ -27,7 +27,7 @@ public class RestData {
         public @ResponseBody Pais getTotalPais(@RequestParam(name = "pais") String message){ 
 
                 RestTemplate restTemplate = new RestTemplate(); 
-                ResponseEntity<String> call= restTemplate.getForEntity("https://api.covidl9api.com/live/country/" + message ,String.class); 
+                ResponseEntity<String> call= restTemplate.getForEntity("https://api.covid19api.com/live/country/" + message ,String.class); 
 
                 LOGGER.log(Level.INFO, "Consulta por pais"); 
 
@@ -61,7 +61,7 @@ public class RestData {
                 LOGGER.log(Level.INFO, "Consulta mundial"); 
         
                 RestTemplate restTemplate = new RestTemplate(); 
-                ResponseEntity<String> call= restTemplate.getForEntity("https://api.covidl9api.com/world/total" ,String.class); 
+                ResponseEntity<String> call= restTemplate.getForEntity("https://api.covid19api.com/world/total" ,String.class); 
                 Mundial response = new Mundial(); 
                 Gson gson = new Gson(); 
                 Mundial estado = gson.fromJson(call.getBody().toLowerCase(), Mundial.class);
