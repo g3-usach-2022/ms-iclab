@@ -21,7 +21,5 @@ public class RestDataTest {
 
 	@Test
 	public void testGetTotalmundial() throws Exception {
-
 	}
-
 }
