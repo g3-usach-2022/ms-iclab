@@ -125,6 +125,36 @@ pipeline {
                 }
             }
         }
+        stage("Download Artifact Nexus"){
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'nexus_admin', passwordVariable: 'NXS_PASSWORD', usernameVariable: 'NXS_USERNAME')]) {
+                    sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+                }
+            }
+        }
+         stage("Run Artifact in Jenkins"){
+            steps {
+                script{
+                    sh 'nohup java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+                }
+            }
+        }
+          stage("Testear Artefacto - Dormir(Esperar 20sg) "){
+            steps {
+                script{
+                    sh "sleep 20 && newman run my-sclab-test.postman_collection.json"
+                }
+            }
+        }
+        stage("Detener Atefacto jar en Jenkins server"){
+            steps {
+                sh '''
+                    echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
+                    sleep 20
+                    kill -9 $(pidof java | awk '{print $1}')
+                '''
+            }
+        }
     }
 
     post {

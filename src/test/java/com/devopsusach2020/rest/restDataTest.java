@@ -14,17 +14,17 @@ public class RestDataTest {
     @TestConfiguration
     static class Config {
         @Bean
-        public void testGetData() {
+        public void testGetTotalPais() {
 
             final RestData rest = new RestData();
-             rest.getData("pais");
+             rest.getTotalPais("pais");
         }
     
         @Bean
         void testGetTotalMundial() {
     
             final RestData rest = new RestData();
-            rest.getTotalMundial();
+            rest.getTotalmundial();
     
             
         }    }    
