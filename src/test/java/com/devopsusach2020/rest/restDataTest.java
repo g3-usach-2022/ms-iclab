@@ -1,33 +1,27 @@
 package com.devopsusach2020.rest;
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
 public class RestDataTest {
+	RestData restData = new RestData("Peru");
 
-    @TestConfiguration
-    static class Config {
-        @Bean
-        public void testGetData() {
+	@Test
+	public void testGetTotalPais() throws Exception {
+		assertEquals(restData.strPais, "Peru");
+	}
 
-            final RestData rest = new RestData();
-             rest.getData("pais");
-        }
-    
-        @Bean
-        void testGetTotalMundial() {
-    
-            final RestData rest = new RestData();
-            rest.getTotalMundial();
-    
-            
-        }    }    
-    
-  
+	@Test
+	public void testDiezxciento() throws Exception {	
+		
+		
+	}
+
+	@Test
+	public void testGetTotalmundial() throws Exception {
+
+	}
+
 }
