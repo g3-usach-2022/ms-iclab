@@ -20,19 +20,12 @@ import com.google.gson.Gson;
 @RequestMapping(path = "/rest/mscovid")
 public class RestData {
 	
-        public String strPais;
-        
-        public RestData(String string) {
-                strPais = "Chile";
-        }
-
 	private final static Logger LOGGER = Logger.getLogger("devops.subnivel.Control");
 
 	
 @GetMapping(path = "/estadoPais", produces = MediaType.APPLICATION_JSON_VALUE) 
         public @ResponseBody Pais getTotalPais(@RequestParam(name = "pais") String message){ 
                 try{
-                        System.out.println("lalal");
                         RestTemplate restTemplate = new RestTemplate(); 
                         ResponseEntity<String> call= restTemplate.getForEntity("https://api.covid19api.com/live/country/" + message ,String.class); 
 
@@ -56,7 +49,7 @@ public class RestData {
                         response.setConfirmed(confirmed); 
                         response.setDeaths(death); 
                         response.setRecovered(recovered); 
-                        response. setCountry(message); 
+                        response.setCountry(message); 
                         response.setMensaje("ok"); 
 
                         return response; 
