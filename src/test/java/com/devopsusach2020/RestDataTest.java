@@ -1,7 +1,8 @@
-package com.devopsusach2020.rest;
+package com.devopsusach2020;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import com.devopsusach2020.model.Pais;
+import com.devopsusach2020.rest.RestData;
 
 public class RestDataTest {
 	Pais responseTestPais = new Pais();
