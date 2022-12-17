@@ -127,7 +127,7 @@ pipeline {
         }
         stage("Download Artifact Nexus"){
             steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus_admin', passwordVariable: 'NXS_PASSWORD', usernameVariable: 'NXS_USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'artefactos-admin', passwordVariable: 'NXS_PASSWORD', usernameVariable: 'NXS_USERNAME')]) {
                     sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
                 }
             }
