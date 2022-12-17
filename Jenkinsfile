@@ -135,7 +135,7 @@ pipeline {
          stage("Run Artifact in Jenkins"){
             steps {
                 script{
-                    sh 'nohup java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+                    sh 'nohup java -jar DevOpsUsach2020-${nPomVersion}-lab5.jar & >/dev/null'
                 }
             }
         }
