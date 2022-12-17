@@ -112,8 +112,8 @@ pipeline {
                     repository: 'maven-releases-g3',
                     credentialsId: 'artefactos-admin',
                     artifacts: [
-                        [artifactId: "archivo",
-                        classifier: 'lab4',
+                        [artifactId: "DevOpsUsach2020",
+                        classifier: 'lab5',
                          file: 'build/DevOpsUsach2020-'+ "${nPomVersion}" + '.jar',
                         type: 'jar']
                     ]
@@ -128,7 +128,7 @@ pipeline {
         stage("Download Artifact Nexus"){
             steps {
                 withCredentials([usernamePassword(credentialsId: 'artefactos-admin', passwordVariable: 'NXS_PASSWORD', usernameVariable: 'NXS_USERNAME')]) {
-                    sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+                    sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/Grupo3/DevOpsUsach2020/${nPomVersion}/DevOpsUsach2020-${nPomVersion}-lab5.jar" -O'
                 }
             }
         }
