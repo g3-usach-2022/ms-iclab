@@ -20,6 +20,12 @@ public class RestDataTest {
 	}
 
 	@Test
+	void testGetConfirmadosEsCorrecto() {
+		RestData rest = new RestData();
+		assertTrue(rest.getTotalPais("Chile").getConfirmed() >= rest.getTotalPais("Chile").getDeaths());
+	}
+
+	@Test
 	void testGetPaisVacio() {
 		RestData rest = new RestData();
 		assertThrows(Exception.class, () -> {
