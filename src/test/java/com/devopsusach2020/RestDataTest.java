@@ -5,24 +5,33 @@ import com.devopsusach2020.model.Pais;
 import com.devopsusach2020.rest.RestData;
 
 public class RestDataTest {
-	Pais responseTestPais = new Pais();
+	RestData rest = new RestData();
+	String paisTest = "Peru";
+	Pais pais = rest.getTotalPais(paisTest);
 
 	@Test
-	void testGetPaisPeru() {
-		RestData rest = new RestData();
-		assertEquals("Peru", rest.getTotalPais("Peru").getCountry());
+	void testGetPais() {
+		assertEquals(paisTest, pais.getCountry());
 	}
 
-	@Test
-	void testGetPaisChile() {
-		RestData rest = new RestData();
-		assertEquals("Chile", rest.getTotalPais("Chile").getCountry());
+	@Test 
+	void testGetActivesEsCorrecto() {
+		assertTrue(pais.getConfirmed() > pais.getActive());
 	}
 
-	@Test
-	void testGetConfirmadosEsCorrecto() {
-		RestData rest = new RestData();
-		assertTrue(rest.getTotalPais("Chile").getConfirmed() >= rest.getTotalPais("Chile").getDeaths());
+	@Test 
+	void testGetMuertosEsCorrecto() {
+		assertTrue(pais.getConfirmed() > pais.getDeaths());
+	}
+
+	@Test 
+	void testGetMRecuperadosEsCorrecto() {
+		assertTrue(pais.getConfirmed() > pais.getRecovered());
+	}
+
+	@Test 
+	void testGetTotalesEsCorrecto() {
+		assertTrue(pais.getConfirmed() > pais.getActive() + pais.getDeaths() + pais.getRecovered());
 	}
 
 	@Test
