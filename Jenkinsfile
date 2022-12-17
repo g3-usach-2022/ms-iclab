@@ -112,8 +112,8 @@ pipeline {
                     repository: 'maven-releases-g3',
                     credentialsId: 'artefactos-admin',
                     artifacts: [
-                        [artifactId: "archivo",
-                        classifier: 'lab4',
+                        [artifactId: "DevOpsUsach2020",
+                        classifier: 'lab5',
                          file: 'build/DevOpsUsach2020-'+ "${nPomVersion}" + '.jar',
                         type: 'jar']
                     ]
@@ -123,6 +123,43 @@ pipeline {
                 failure{
                     slackSend color: 'danger', message: "[Grupo 3] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]"
                 }
+            }
+        }
+        stage("Download Artifact Nexus"){
+            
+            steps {
+                script{
+                    nPomVersion = readMavenPom().getVersion()
+                }
+                withCredentials([usernamePassword(credentialsId: 'artefactos-admin', passwordVariable: 'NXS_PASSWORD', usernameVariable: 'NXS_USERNAME')]) {
+                    sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/Grupo3/DevOpsUsach2020/'+"${nPomVersion}"+'/DevOpsUsach2020-'+"${nPomVersion}"+'-lab5.jar" -O'
+                }
+            }
+        }
+         stage("Run Artifact in Jenkins"){
+            steps {
+                script{
+                    nPomVersion = readMavenPom().getVersion()
+                }
+                script{
+                    sh 'nohup java -jar DevOpsUsach2020-'+"${nPomVersion}"+'-lab5.jar & >/dev/null'
+                }
+            }
+        }
+          stage("Testear Artefacto - Dormir(Esperar 20sg) "){
+            steps {
+                script{
+                    sh "sleep 20 && newman run my-sclab-test.postman_collection.json"
+                }
+            }
+        }
+        stage("Detener Atefacto jar en Jenkins server"){
+            steps {
+                sh '''
+                    echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
+                    sleep 20
+                    kill -9 $(pidof java | awk '{print $1}')
+                '''
             }
         }
     }
