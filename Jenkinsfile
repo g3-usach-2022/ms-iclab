@@ -132,7 +132,7 @@ pipeline {
                     nPomVersion = readMavenPom().getVersion()
                 }
                 withCredentials([usernamePassword(credentialsId: 'artefactos-admin', passwordVariable: 'NXS_PASSWORD', usernameVariable: 'NXS_USERNAME')]) {
-                    sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/Grupo3/DevOpsUsach2020/${nPomVersion}/DevOpsUsach2020-${nPomVersion}-lab5.jar" -O'
+                    sh ' curl -X GET -u $NXS_USERNAME:$NXS_PASSWORD "http://nexus:8081/repository/maven-releases-g3/Grupo3/DevOpsUsach2020/'+"${nPomVersion}"+'/DevOpsUsach2020-'+"${nPomVersion}"+'-lab5.jar" -O'
                 }
             }
         }
@@ -142,7 +142,7 @@ pipeline {
                     nPomVersion = readMavenPom().getVersion()
                 }
                 script{
-                    sh 'nohup java -jar DevOpsUsach2020-${nPomVersion}-lab5.jar & >/dev/null'
+                    sh 'nohup java -jar DevOpsUsach2020-'+"${nPomVersion}"+'-lab5.jar & >/dev/null'
                 }
             }
         }
