@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import com.devopsusach2020.model.Pais;
 import com.devopsusach2020.rest.RestData;
 
-public class RestDataTest {
+public class RestDataPaisTest {
 	RestData rest = new RestData();
 	String paisTest = "Peru";
 	Pais pais = rest.getTotalPais(paisTest);
